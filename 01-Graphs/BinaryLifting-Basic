@@ -1,0 +1,118 @@
+//Binary Lifting, LCA, Distance Between Two Nodes in a tree, Kth Ancestor
+//Current implementation : Finding the distance between two nodes in a tree
+
+int arr[200001][33];
+int depth[200001];
+vector<vector<int>> table;
+int n, q;
+long long parent( long long x,  long long k) {
+	 long long at = x;
+	for (long long z = 31; z >= 0; z--)
+	{
+		if(k & ( 1LL << z))
+			at = arr[at][z];
+		if (at == -1) break;
+	}
+	if (at == x) at = -1;
+	return at;
+}
+void lca()
+{
+	for (int j = 1; j <= 32; j++)
+	{
+		for (int i = 2; i <= n; i++)
+		{
+			if (arr[i][j - 1] == -1)
+				arr[i][j] = -1;
+			else
+				arr[i][j] = arr[arr[i][j - 1]][j - 1];
+
+		}
+	}
+}
+void computeDepth(int curr, int prev, int d)
+{
+	depth[curr] = d++;
+	//if(prev != -1)
+	arr[curr][0] = prev;
+	for (auto& v : table[curr])
+		if (v != prev)
+		{
+			computeDepth(v, curr, d);
+		}
+}
+long long fun(int  n1, int n2) {
+	if (n1 == n2) return n1;
+	int jump = 0;
+	while (jump < 32)
+	{
+		if (arr[n1][jump] == arr[n2][jump])
+		{
+			if (jump == 0)
+			{
+				return arr[n1][jump];
+			}
+			else {
+				n1 = arr[n1][jump - 1];
+				n2 = arr[n2][jump - 1];
+				jump = 0;
+			}
+		}
+		else jump++;
+	}
+	return 1;
+}
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(0);
+	
+	
+	//int tt; cin >> tt;
+	//while (tt--)
+	{		
+		cin >> n >> q;
+		table = vector<vector<int>>(n + 1, vector<int>());
+		arr[1][0] = -1;
+		for (int i = 0; i <= n; i++)
+			for (int j = 0; j <= 32; j++)
+				arr[i][j] = -1;
+		for (int i = 0; i < n - 1; i++)
+		{
+			int u, v; cin >> u >> v;
+			table[u].push_back(v);
+			table[v].push_back(u);
+		}
+		computeDepth(1, -1, 0);
+		lca();
+		//for (int i = 1; i <= n; i++)
+		{
+			//cout << i << " " << depth[i] << endl;
+		}
+		while (q--)
+		{
+			long long a, b;
+			cin >> a >> b;
+			long long a1 = a, b1 = b;
+			//Get a and b to same depth
+			if (a == b) {
+				cout << 0 << '\n'; continue;
+			}
+			if (depth[a] > depth[b])
+			{
+				int diff = depth[a] - depth[b];
+				a = parent(a, diff);
+			}
+			else if (depth[a] < depth[b])
+			{
+				int diff = depth[b] - depth[a];
+				b = parent(b, diff);
+			}
+			long long z = fun(a, b);
+			//cout <<'\n'<< a << " " << b << endl;
+			//cout <<"Depth-"<< a1 << ": " << depth[a1] <<"    Depth-" << b1 << " :" << depth[b1] << "   Parent-" << z << " depth : " << depth[z] << endl;
+			long long ans = (depth[a1] - depth[z]) + (depth[b1] - depth[z]);
+			cout << ans << '\n';
+		}
+	}
+	
+}
