@@ -1,0 +1,76 @@
+COMPETITIVE PROGRAMMING - DYNAMIC PROGRAMMING PATTERNS
+=======================================================
+
+CLASSIC DP PROBLEMS
+===================
+- Fibonacci: F(n) = F(n-1) + F(n-2), space O(1)
+  CODE: ll fib(int n, vector<ll>& dp) {
+            if(n <= 1) return n;
+            if(dp[n] != -1) return dp[n];
+            return dp[n] = fib(n-1,dp) + fib(n-2,dp);
+        }
+  
+- Coin Change: min coins to make amount, greedy fails sometimes
+  CODE: dp[0] = 0;
+        for(int i = 1; i <= amount; i++) {
+            dp[i] = INT_MAX;
+            for(int coin : coins) {
+                if(coin <= i && dp[i-coin] != INT_MAX)
+                    dp[i] = min(dp[i], dp[i-coin] + 1);
+            }
+        }
+  
+- 0/1 Knapsack: dp[i][w] = max value with capacity w
+  CODE: for(int i = 1; i <= n; i++) {
+            for(int w = W; w >= wt[i]; w--) {
+                dp[w] = max(dp[w], dp[w-wt[i]] + val[i]);
+            }
+        }
+  
+- LIS (Longest Increasing Subsequence): O(n log n) binary search
+  CODE: vector<int> lis;
+        for(int x : arr) {
+            auto it = lower_bound(lis.begin(), lis.end(), x);
+            if(it == lis.end()) lis.push_back(x);
+            else *it = x;
+        }
+
+DP OPTIMIZATION TECHNIQUES
+==========================
+- Space Optimization: use 1D array instead of 2D (rolling array)
+- Convex Hull Trick: optimize transitions from O(n²) to O(n log n)
+- Knuth-Yao Optimization: for certain recurrence relations
+- Digit DP: solve digit-by-digit for large ranges
+- Bitmask DP: enumerate all subsets O(3ⁿ) or O(2ⁿ)
+
+COMMON DP STATES
+================
+- dp[i] = answer for first i elements
+- dp[i][j] = answer considering elements i to j
+- dp[i][w] = answer with limit w (knapsack variant)
+- dp[mask] = answer for subset represented by bitmask
+- dp[i][j][k] = answer considering constraints i, j, k
+
+TRANSITION TIPS
+===============
+- Always identify base cases
+- Check if state is reachable before transition
+- Ensure no negative indices
+- Consider overflow for large answers (use modular arithmetic)
+- Direction matters: top-down (memoization) vs bottom-up (tabulation)
+- Usually bottom-up is faster due to no recursion overhead
+
+GREEDY vs DP
+============
+When DP is needed (greedy fails):
+- Coin Change (any denomination)
+- Interval Scheduling with weights
+- Activity Selection with values
+- Job Sequencing with deadlines
+
+When Greedy works:
+- Coin Change (standard denominations)
+- Huffman Coding
+- Kruskal's/Prim's MST
+- Dijkstra's shortest path
+- Fractional Knapsack

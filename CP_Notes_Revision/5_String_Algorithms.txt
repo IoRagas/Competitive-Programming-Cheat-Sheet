@@ -1,0 +1,116 @@
+COMPETITIVE PROGRAMMING - STRING ALGORITHMS
+==============================================
+
+PATTERN MATCHING
+=================
+
+Brute Force: O(nm) - simple but slow for large texts
+
+KMP (Knuth-Morris-Pratt): O(n + m)
+CODE: vector<int> buildKMP(string p) {
+    int m = p.length();
+    vector<int> fail(m, 0);
+    for(int i = 1; i < m; i++) {
+        int j = fail[i-1];
+        while(j > 0 && p[i] != p[j]) j = fail[j-1];
+        if(p[i] == p[j]) j++;
+        fail[i] = j;
+    }
+    return fail;
+}
+// Use fail array to skip comparisons in text
+
+Z-Algorithm: O(n + m)
+CODE: vector<int> buildZ(string s) {
+    int n = s.length();
+    vector<int> z(n);
+    z[0] = n;
+    int l = 0, r = 0;
+    for(int i = 1; i < n; i++) {
+        if(i <= r) z[i] = min(r-i+1, z[i-l]);
+        while(i+z[i] < n && s[z[i]] == s[i+z[i]]) z[i]++;
+        if(i+z[i]-1 > r) l = i, r = i+z[i]-1;
+    }
+    return z;
+}
+- Compute Z[i] = length of longest substring starting from i that matches prefix
+
+Rabin-Karp: O(n + m) average
+- Rolling hash: hash(s[i:i+m]) vs pattern hash
+- Risk of hash collision: use large prime modulus
+- Good when multiple patterns to search
+
+Suffix Array: O(n log n) build
+- Sorted array of all suffixes
+- Binary search for pattern: O(log n)
+
+Trie (Prefix Tree): O(m) per operation
+CODE: struct Trie {
+    unordered_map<char, Trie*> children;
+    bool isEnd = false;
+    
+    void insert(string& word) {
+        Trie* curr = this;
+        for(char c : word) {
+            if(!curr->children[c]) curr->children[c] = new Trie();
+            curr = curr->children[c];
+        }
+        curr->isEnd = true;
+    }
+    
+    bool search(string& word) {
+        Trie* curr = this;
+        for(char c : word) {
+            if(!curr->children.count(c)) return false;
+            curr = curr->children[c];
+        }
+        return curr->isEnd;
+    }
+};
+- Insert word: O(m) where m = length
+- Search: O(m)
+- Prefix matching: O(m)
+- Space: O(ALPHABET_SIZE * total_chars)
+
+BIT MANIPULATION TRICKS
+========================
+- Check if set: (x & (1 << i)) != 0
+- Set i-th bit: x |= (1 << i)
+- Clear i-th bit: x &= ~(1 << i)
+- Toggle i-th bit: x ^= (1 << i)
+- Clear lowest set bit: x &= (x - 1)
+- Count set bits: __builtin_popcount(x)
+- Rightmost set bit: x & (-x)
+- Check power of 2: (x & (x-1)) == 0
+
+STRING MANIPULATION
+====================
+- Reverse: reverse(s.begin(), s.end()) or manual loop
+- Palindrome: check if s == reversed(s)
+- Anagram: sort both strings and compare
+- Substring: s.find(sub), s.substr(pos, len)
+- Replace: replace(s.begin(), s.end(), old, new)
+- Split: use stringstream or manual parsing
+
+LEXICOGRAPHIC ORDER
+====================
+- Strings compared character by character
+- 'a' < 'b' < ... < 'z'
+- "apple" < "application"
+- Shorter string < longer if prefix matches
+- Use sort() for lexicographic sort by default
+
+HASHING CONSIDERATIONS
+=======================
+- Polynomial hash: h = (c₀ + c₁*p + c₂*p² + ...) mod M
+- Choose p = 31 or 37 (prime), M = 10⁹+7 or 10⁹+9
+- For multiple hash: use different bases/moduli to reduce collision
+- Rolling hash allows O(1) substring hash after preprocessing O(n)
+
+COMMON STRING PATTERNS
+=======================
+- Count occurrences: use find() in loop with offset
+- Check balanced parentheses: stack-based
+- Longest palindromic substring: expand around center O(n²) or Manacher O(n)
+- Longest common subsequence: DP O(mn)
+- Edit distance: DP O(mn)

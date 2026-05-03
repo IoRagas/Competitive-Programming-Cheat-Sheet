@@ -1,0 +1,150 @@
+COMPETITIVE PROGRAMMING - REVISION SHEET INDEX
+================================================
+
+QUICK NAVIGATION
+=================
+
+1_DSA_Essentials.txt
+   - Core data structures (arrays, stacks, heaps, trees, graphs)
+   - Time complexity reference
+   - When to use each data structure
+
+2_DP_Patterns.txt
+   - Classic DP problems
+   - DP state transitions
+   - Optimization techniques (CHT, Knuth-Yao)
+   - Greedy vs DP decision making
+
+3_Math_NumberTheory.txt
+   - Prime numbers, factorization
+   - Modular arithmetic and inverses
+   - Combinatorics and Catalan numbers
+   - Matrix exponentiation
+   - Digit DP patterns
+
+4_Graph_Algorithms.txt
+   - BFS/DFS fundamentals
+   - Single-source shortest paths (Dijkstra, Bellman-Ford)
+   - All-pairs shortest paths (Floyd-Warshall)
+   - MST (Kruskal, Prim)
+   - Topological sort, SCC detection
+
+5_String_Algorithms.txt
+   - Pattern matching (KMP, Z-algorithm, Rabin-Karp)
+   - Trie data structure
+   - Hashing techniques
+   - Common string problems
+
+6_Bit_Manipulation.txt
+   - Bitwise operations reference
+   - Bitmask DP (TSP, subset problems)
+   - Common bit tricks and optimizations
+   - Power of 2 checks and operations
+
+7_Debugging_Common_Mistakes.txt
+   - Common pitfalls and how to avoid them
+   - TLE, WA, RTE, MLE debugging strategies
+   - Boundary condition checking
+   - Template checklist
+
+8_STL_Reference.txt
+   - Vector, string, set, map operations
+   - Sorting and searching functions
+   - Bit manipulation built-ins
+   - Priority queue, deque operations
+
+9_Advanced_Techniques.txt
+   - Two pointers and sliding window
+   - Binary search on answer
+   - Meet in the middle
+   - Segment tree and Fenwick tree overview
+   - Coordinate compression
+   - Small to large merging trick
+
+10_Contest_Tips_Template.txt
+   - C++ competitive template
+   - Contest day strategy
+   - Time allocation and problem selection
+   - Mental checklist while coding
+   - When to skip problems
+
+---
+
+30-MINUTE CRASH COURSE
+======================
+Read in this order if short on time:
+
+1. Contest_Tips_Template.txt (5 min) - get in contest mindset
+2. DSA_Essentials.txt (5 min) - refresh data structures
+3. DP_Patterns.txt (3 min) - DP state transitions
+4. Graph_Algorithms.txt (3 min) - key algorithms
+5. Debugging_Common_Mistakes.txt (2 min) - avoid disasters
+6. STL_Reference.txt (2 min) - reference while coding
+
+---
+
+QUICK DECISION TREE
+====================
+
+Problem seems hard?
+├─ Can it be solved with greedy? → Try greedy
+├─ Need to find optimal subset? → Try DP or bitmask
+├─ Need to optimize over range? → Try segment tree
+├─ Need to match pattern? → Try KMP or hashing
+├─ Is it graph problem? → BFS/DFS/Dijkstra
+└─ Else: rethink the problem
+
+TLE - Execution too slow:
+├─ Check loop complexity
+├─ Use faster I/O (fast I/O flag)
+├─ Optimize inner loop
+├─ Better algorithm (avoid brute force)
+└─ Reduce constant factors
+
+WA - Wrong answer:
+├─ Check sample manually
+├─ Edge cases (empty, single, max values)
+├─ Off-by-one errors
+├─ Integer overflow
+└─ Output format
+
+---
+
+ALGORITHM COMPLEXITY TABLE
+===========================
+Algorithm              Complexity      Best For
+Linear Search          O(n)            Unsorted data
+Binary Search          O(log n)        Sorted array
+Bubble Sort            O(n²)           Small arrays
+Quick Sort             O(n log n)      Average case
+Merge Sort             O(n log n)      Worst case guarantee
+Heap Sort              O(n log n)      In-place required
+BFS                    O(V+E)          Shortest path (unweighted)
+DFS                    O(V+E)          Connectivity
+Dijkstra               O((V+E)log V)   Positive weights
+Floyd-Warshall        O(V³)           All pairs (small V)
+Kruskal MST           O(E log E)       Sparse graphs
+Union-Find (Kruskal)   O(E α(V))       Efficient unions
+0/1 Knapsack          O(nW)           Optimal selection
+Matrix Chain Mult     O(n³)           Order matters
+
+---
+
+IMPORTANT CONSTANTS
+====================
+MOD = 10^9 + 7        (standard prime)
+MOD = 10^9 + 9        (alternative prime)
+INF = 10^9            (for int)
+INF = 10^18           (for long long)
+PI = acos(-1.0)       (or use 3.14159265358979)
+Epsilon = 1e-9        (for floating point comparison)
+
+---
+
+GOOD LUCK IN YOUR CONTEST! 
+Focus on these priorities:
+1. Understand the problem fully
+2. Choose correct algorithm
+3. Code carefully, not fast
+4. Test on examples
+5. Don't over-optimize early

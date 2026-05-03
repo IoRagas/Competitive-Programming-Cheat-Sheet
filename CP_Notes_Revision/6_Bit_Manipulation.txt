@@ -1,0 +1,134 @@
+COMPETITIVE PROGRAMMING - BIT MANIPULATION & TRICKS
+=====================================================
+
+BITWISE OPERATIONS
+===================
+AND (&): 1 & 1 = 1, else 0
+OR (|): 0 | 0 = 0, else 1
+XOR (^): 1 ^ 1 = 0, 0 ^ 0 = 0, else 1
+NOT (~): flips all bits
+LEFT SHIFT (<<): x << k = x * 2^k
+RIGHT SHIFT (>>): x >> k = x / 2^k (integer division)
+
+CODE EXAMPLES:
+// Check if bit at position i is set (0-indexed from right)
+bool isBitSet = (x >> i) & 1;
+
+// Set i-th bit to 1
+x |= (1 << i);
+
+// Clear i-th bit to 0
+x &= ~(1 << i);
+
+// Toggle i-th bit
+x ^= (1 << i);
+
+// Count number of set bits
+int count = __builtin_popcount(x);
+
+// Check if power of 2
+if((x & (x-1)) == 0 && x != 0) // is power of 2
+
+KEY OPERATIONS
+==============
+Check if i-th bit is set (1-indexed from right):
+  (x >> (i-1)) & 1  or  (x & (1 << (i-1))) != 0
+
+Set i-th bit to 1:
+  x |= (1 << (i-1))
+
+Clear i-th bit to 0:
+  x &= ~(1 << (i-1))
+
+Toggle i-th bit:
+  x ^= (1 << (i-1))
+
+Clear rightmost set bit:
+  x &= (x - 1)
+
+Get rightmost set bit:
+  x & (-x)
+
+Count set bits (__builtin_popcount):
+  __builtin_popcount(x)
+
+Check if power of 2:
+  (x & (x - 1)) == 0  && x != 0
+
+Get highest power of 2 ≤ x:
+  Use __builtin_clz(x) or while loop
+
+BITMASK DP APPLICATIONS
+========================
+Subset enumeration: O(3^n)
+CODE: for(int sub = mask; sub > 0; sub = (sub-1) & mask) {
+    // process subset sub
+}
+
+Iterate all submasks:
+CODE: for(int sub = mask; sub; sub = (sub-1) & mask) {
+    // process submask
+}
+
+Traveling Salesman Problem (TSP):
+CODE: vector<vector<ll>> dp(1<<n, vector<ll>(n, LLONG_MAX));
+    for(int i = 0; i < n; i++) dp[1<<i][i] = 0;
+    
+    for(int mask = 1; mask < (1<<n); mask++) {
+        for(int u = 0; u < n; u++) {
+            if(!(mask & (1<<u)) || dp[mask][u] == LLONG_MAX) continue;
+            for(int v = 0; v < n; v++) {
+                if(mask & (1<<v)) continue;
+                dp[mask | (1<<v)][v] = min(dp[mask | (1<<v)][v],
+                                            dp[mask][u] + cost[u][v]);
+            }
+        }
+    }
+  O(n² * 2^n)
+
+Subset Sum with DP:
+CODE: dp[0] = true;
+    for(int x : arr) {
+        for(int sum = target; sum >= x; sum--) {
+            if(dp[sum-x]) dp[sum] = true;
+        }
+    }
+
+COMMON BITMASK TRICKS
+=====================
+All 1s of length n:
+  (1 << n) - 1
+
+Count trailing zeros:
+  __builtin_ctz(x)
+
+Count leading zeros:
+  __builtin_clz(x)
+
+Multiply/divide by power of 2:
+  x << k  (multiply by 2^k)
+  x >> k  (divide by 2^k)
+
+Gray Code (n-th gray code):
+  n ^ (n >> 1)
+
+Check if exactly one bit set:
+  (x & (x - 1)) == 0  && x != 0
+
+Swap two numbers without temp:
+  a ^= b;  b ^= a;  a ^= b;
+
+OPTIMIZATION PATTERNS
+=====================
+Instead of string comparison: use hashing + comparison
+Instead of sorting large data: use bit manipulation for specific cases
+Bitmask for optimization: state compression when constraints allow
+Avoid unnecessary modulo: batch operations then single modulo
+Use bit operations instead of arithmetic when possible: faster
+
+PRECAUTIONS
+===========
+- Check for overflow when shifting (1 << 30 vs 1LL << 30)
+- Use long long for 64-bit bitmasks: 1LL << 60
+- Negative numbers have different representations (two's complement)
+- Be careful with right shift on negative numbers

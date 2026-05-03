@@ -1,0 +1,170 @@
+COMPETITIVE PROGRAMMING - ADVANCED TECHNIQUES
+===============================================
+
+TWO POINTERS / SLIDING WINDOW
+=============================
+- Container with most water: fix left, move right to find max area
+- Sliding window maximum: use deque to track max in window
+- Merge sorted arrays: advance pointer with smaller element
+  CODE: int l = 0, r = n-1;
+        int maxArea = 0;
+        while(l < r) {
+            int area = (r - l) * min(h[l], h[r]);
+            maxArea = max(maxArea, area);
+            if(h[l] < h[r]) l++;
+            else r--;
+        }
+  
+- Remove duplicates: two pointers where one marks unique positions
+- Time complexity: O(n) typically
+
+GREEDY ALGORITHMS
+=================
+Works when:
+- Optimal substructure exists
+- Greedy choice leads to globally optimal solution
+
+Examples:
+- Activity selection: sort by end time, greedily pick non-overlapping
+- Huffman coding: build tree bottom-up using min-heap
+- Dijkstra: always expand nearest unvisited node
+- Kruskal MST: greedily add smallest edge not creating cycle
+
+BINARY SEARCH ADVANCED
+=======================
+Not just for sorted arrays:
+- Binary search on answer: find minimum/maximum feasible value
+- Predicate: dp or function that checks if answer is feasible
+- Use when: answer increases monotonically with some parameter
+
+Template:
+CODE: int left = 0, right = n;
+    while(left < right) {
+        int mid = left + (right - left) / 2;
+        if(canDo(mid)) right = mid;  // try smaller
+        else left = mid + 1;          // need larger
+    }
+    // left is the answer
+    
+Example (min time to eat bananas):
+CODE: int minEatingSpeed(vector<int>& piles, int h) {
+        auto canFinish = [&](int speed) {
+            int time = 0;
+            for(int pile : piles) time += (pile + speed - 1) / speed;
+            return time <= h;
+        };
+        
+        int left = 1, right = *max_element(piles.begin(), piles.end());
+        while(left < right) {
+            int mid = left + (right - left) / 2;
+            if(canFinish(mid)) right = mid;
+            else left = mid + 1;
+        }
+        return left;
+    }
+
+MEET IN THE MIDDLE
+===================
+- Divide problem into 2 halves: O(2^(n/2))
+- Generate all states for each half
+- Combine using appropriate data structure
+- Useful for n ≤ 40 (brute force O(2^40) too slow)
+
+SEGMENT TREE / FENWICK TREE
+=============================
+Point update, range query in O(log n)
+
+Fenwick Tree (Binary Indexed Tree) - Simpler:
+CODE: class BIT {
+    vector<ll> tree;
+    int n;
+public:
+    BIT(int n) : n(n), tree(n+1, 0) {}
+    
+    void update(int i, ll delta) {
+        for(++i; i <= n; i += i & -i) tree[i] += delta;
+    }
+    
+    ll query(int i) {
+        ll sum = 0;
+        for(++i; i > 0; i -= i & -i) sum += tree[i];
+        return sum;
+    }
+};
+- Use Segment Tree for: complex range queries (min, max, gcd, etc.)
+- Use Fenwick Tree for: prefix queries only, simpler implementation
+
+COORDINATE COMPRESSION
+=======================
+Compress large coordinate ranges to manageable size:
+1. Collect all coordinates
+2. Sort and remove duplicates
+3. Map each coordinate to new index
+
+USE CASE: 2D range query with sparse coordinates
+
+MODULAR ARITHMETIC PATTERNS
+=============================
+Combinations: C(n,r) mod p
+- Precompute fact[i] and inv_fact[i]
+- C(n,r) = fact[n] * inv_fact[r] * inv_fact[n-r]
+
+Lucas' Theorem: C(n,r) mod p where p is prime
+- C(n,r) ≡ C(n/p, r/p) * C(n%p, r%p) (mod p)
+
+COUNT OPERATIONS WITH MODULO
+- Batch operations when possible
+- Use fast exponentiation for powers
+
+MATRIX EXPONENTIATION
+======================
+For linear recurrences:
+  F(n) = a*F(n-1) + b*F(n-2)
+
+Represent as:
+  [F(n)  ]   [a b] [F(n-1)]
+  [F(n-1)] = [1 0] [F(n-2)]
+
+Compute matrix^n in O(log n)
+
+TERNARY SEARCH
+==============
+For unimodal functions (one peak/valley):
+- O(log n) to find maximum
+- Different from binary search
+
+SMALL TO LARGE TRICK
+====================
+When merging data structures:
+- Always merge smaller to larger set
+- Amortized complexity improves
+
+Example: DSU (Disjoint Set Union) by union by rank
+
+INVERSE PROBLEMS
+=================
+Think backward:
+- Solve reverse problem
+- Map solution back to original
+- Sometimes easier to work backward
+
+PROBLEM TRANSFORMATION
+=======================
+Transform problem to known problem type:
+- Graph problem → shortest path → Dijkstra
+- Counting problem → DP → state compression
+- Range query → segment tree or BIT
+- String matching → hashing or KMP
+
+PRACTICE CHECKLIST
+===================
+Before submitting:
+[ ] Verify time complexity
+[ ] Check space complexity
+[ ] Test with provided examples
+[ ] Test edge cases (empty, single, all same, max values)
+[ ] Check for integer overflow
+[ ] Verify modular arithmetic is applied
+[ ] Check output format exactly
+[ ] Read problem constraints again
+[ ] Quick stress test if time allows

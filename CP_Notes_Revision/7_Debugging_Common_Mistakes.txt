@@ -1,0 +1,88 @@
+COMPETITIVE PROGRAMMING - DEBUGGING & COMMON MISTAKES
+=======================================================
+
+DEBUGGING STRATEGIES
+====================
+1. Print variables at key points (use DEBUG macro)
+2. Check boundary conditions (empty input, max/min values)
+3. Verify time complexity matches time limit
+4. Test with small examples first, trace by hand
+5. Compare with brute force on small inputs
+6. Check for off-by-one errors
+7. Use assert() for invariants
+8. Read problem statement again (especially constraints)
+
+TIME LIMIT EXCEEDED (TLE)
+==========================
+- Check time complexity: O(n²) won't pass for n=10⁶
+- Avoid unnecessary copies: pass by reference
+- Use faster I/O: ios::sync_with_stdio(false)
+- Optimize constants: use % operations carefully
+- Check inner loop: repeated computation?
+- Use long long only when needed
+- Precompute when possible
+
+WRONG ANSWER (WA)
+====================
+- Off-by-one errors: check loop boundaries
+- Integer overflow: use long long, check multiplication
+- Uninitialized variables: initialize arrays
+- Edge cases: empty input, single element, all same
+- Incorrect algorithm: verify on paper
+- Wrong output format: extra spaces, newlines?
+- Modular arithmetic mistakes: ensure all operations use mod
+- Integer division: 5/2 = 2, not 2.5
+
+RUNTIME ERROR (RTE)
+====================
+- Array out of bounds: check indexing
+- Null pointer dereference: validate pointers
+- Stack overflow: limit recursion depth or use iteration
+- Integer overflow: check limits before operations
+- Divide by zero: check denominator
+- Infinite loop: verify loop condition
+
+COMMON PITFALLS
+================
+1. Using int instead of long long (overflow with large numbers)
+2. Forgetting to take modulo in intermediate steps
+3. Not checking if input is valid before processing
+4. Comparing floating point numbers with == (use epsilon)
+5. Assuming input is sorted when it's not
+6. Off-by-one in array indexing (0-indexed vs 1-indexed confusion)
+7. Not clearing global arrays between test cases
+8. Incorrect order of operations
+9. Using uninitialized variables
+10. Greedy when DP is needed
+
+QUICK FIXES
+===========
+- TLE: reduce nesting, optimize inner loop, use better algorithm
+- WA: trace through example, check edge cases, verify algorithm
+- MLE: reduce array sizes, use space-efficient algorithm
+- RTE: check boundaries, null checks, stack depth
+
+INPUT/OUTPUT ISSUES
+====================
+- Check newlines: "\n" vs " "
+- Check for trailing spaces or blank lines
+- Input might have extra whitespace: use getline carefully
+- Multiple test cases: reset global state between tests
+- Fast I/O:
+  ios::sync_with_stdio(false);
+  cin.tie(NULL);
+
+COMPETITIVE PROGRAMMING TEMPLATE CHECKLIST
+============================================
+[ ] #include <bits/stdc++.h>
+[ ] using namespace std;
+[ ] typedef long long ll;
+[ ] const int MOD = 1e9 + 7;
+[ ] Fast I/O setup
+[ ] Main logic in separate function
+[ ] Handle multiple test cases
+[ ] Clear global arrays if needed
+[ ] Use appropriate data types
+[ ] Check for potential overflow
+[ ] Optimize hot loops
+[ ] Test edge cases before submission

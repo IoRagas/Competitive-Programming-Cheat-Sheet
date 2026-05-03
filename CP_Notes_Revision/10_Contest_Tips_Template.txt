@@ -1,0 +1,152 @@
+COMPETITIVE PROGRAMMING - CONTEST TIPS & TEMPLATE
+===================================================
+
+C++ COMPETITIVE TEMPLATE
+=========================
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef pair<int, int> pii;
+typedef pair<ll, ll> pll;
+typedef vector<int> vi;
+typedef vector<ll> vll;
+
+const int MOD = 1e9 + 7;
+const int INF = 1e9;
+const ll LINF = 1e18;
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    
+    int t = 1;
+    cin >> t;
+    while(t--) {
+        // solve problem here
+    }
+    
+    return 0;
+}
+
+CONTEST DAY STRATEGY
+====================
+1. Read all problems first (5 min)
+   - Identify difficulty distribution
+   - Choose starting problem
+
+2. Start with easiest problem
+   - Build confidence
+   - Get first points quickly
+
+3. For each problem:
+   - Read carefully
+   - Identify algorithm needed
+   - Code carefully (not fast)
+   - Test on examples
+   - Submit
+
+4. After first AC:
+   - Move to next problem
+   - Don't waste time optimizing
+
+5. If stuck (5 min):
+   - Switch to different problem
+   - Return later with fresh mind
+
+6. Last 10 minutes:
+   - Quick review for silly mistakes
+   - Submit if unsure
+
+READING PROBLEMS
+=================
+- Constraints first: determine algorithm complexity
+- Carefully note: input format, multiple test cases?
+- Check: 0-indexed or 1-indexed?
+- Look for: "exactly one", "at least", modulo requirement
+- Sample test: trace through manually
+
+KEY DECISIONS
+=============
+For n ≤ 10:        O(n!) or O(2^n) OK
+For n ≤ 20:        O(2^n) or O(n * 2^n) OK
+For n ≤ 100:       O(n^3) OK
+For n ≤ 1000:      O(n^2) or O(n^2 log n) OK
+For n ≤ 10^5:      O(n), O(n log n), O(n log^2 n) OK
+For n ≤ 10^6:      O(n), O(n log n) only
+
+COMMON PATTERNS
+================
+Range query → Segment Tree / BIT
+Path queries → Dijkstra / DFS
+Subarray problem → Sliding window / prefix sum
+Optimization → DP / greedy
+Matching → Bipartite / network flow
+Arrangement → Permutation / combinatorics
+
+MENTAL CHECKLIST WHILE CODING
+==============================
+[ ] Using long long where needed?
+[ ] Off-by-one errors?
+[ ] Boundary conditions handled?
+[ ] Global arrays cleared between test cases?
+[ ] Modulo applied at right places?
+[ ] Array indices in bounds?
+[ ] Initialized all variables?
+[ ] Correct loop conditions?
+[ ] Output format correct?
+
+DEBUGGING IN CONTEST
+====================
+- Add simple assertions: assert(n >= 1 && n <= 100);
+- Print intermediate values for small cases
+- Compare with brute force on samples
+- Check if reading input correctly
+- Verify output format exactly
+
+TIME ALLOCATION
+================
+For 2-hour contest (4 problems typical):
+- 15 min: read, analyze, plan
+- 60 min: code & test problems 1-2
+- 30 min: code & test problem 3
+- 10 min: attempt problem 4
+- 5 min: review & submit fixes
+
+WHEN TO SKIP
+=============
+- Can't understand problem after 3 reads → skip
+- Algorithm complex but unsure → skip, return later
+- Stuck on bug > 5 min with simple problem → move on
+
+PRECISION ISSUES
+=================
+- Use long double for complex geometry
+- Epsilon for floating point: abs(a-b) < 1e-9
+- When comparing: use integer arithmetic if possible
+- Modular arithmetic: every *, +, - should use mod
+
+MEMORY LIMITS
+==============
+- Global array of 10^7 integers: ~40 MB
+- Check if MLE possible before allocating
+- Use vector for sparse data
+- Consider bitset for large boolean arrays
+
+TYPICAL CONTEST PATTERN
+========================
+Problem 1 (Easy): 5-10 min → Direct solution
+Problem 2 (Medium): 15-20 min → Algorithm recognition
+Problem 3 (Hard): 30-40 min → Multiple steps or DP
+Problem 4 (Very Hard): Attempt if time remains
+
+LAST MINUTE TIPS
+=================
+1. Use auto to avoid type errors: auto x = ...;
+2. Use 1e9 instead of 10^9 (faster)
+3. Avoid recursion if iterative works (stack overflow)
+4. Use unordered_map for faster average lookup
+5. Reserve vector size if known: v.reserve(n);
+6. Read problem multiple times if confused
+7. If WA: check edge cases, not just algorithm
+8. If TLE: optimize hot loop, not entire code

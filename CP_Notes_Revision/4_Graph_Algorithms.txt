@@ -1,0 +1,144 @@
+COMPETITIVE PROGRAMMING - GRAPH ALGORITHMS
+============================================
+
+BFS (BREADTH-FIRST SEARCH)
+===========================
+Use for: shortest path in unweighted graph, level-order traversal
+Time: O(V + E)
+Space: O(V) for queue
+
+CODE: vector<int> bfs(int start, vector<vector<int>>& adj) {
+      vector<int> dist(adj.size(), -1);
+      queue<int> q;
+      q.push(start);
+      dist[start] = 0;
+      
+      while(!q.empty()) {
+          int u = q.front(); q.pop();
+          for(int v : adj[u]) {
+              if(dist[v] == -1) {
+                  dist[v] = dist[u] + 1;
+                  q.push(v);
+              }
+          }
+      }
+      return dist;
+  }
+
+DFS (DEPTH-FIRST SEARCH)
+==========================
+Use for: connectivity, cycle detection, topological sort
+Time: O(V + E)
+Space: O(V) for recursion stack
+
+Application: Find all connected components, bridges, articulation points
+
+SHORTEST PATHS
+===============
+
+Unweighted Graph:
+- BFS: O(V + E)
+
+Single Source, Positive Weights:
+- Dijkstra: O((V + E) log V) with priority queue
+  CODE: vector<ll> dijkstra(int src, vector<vector<pair<int,ll>>>& adj) {
+        int n = adj.size();
+        vector<ll> dist(n, LLONG_MAX);
+        priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<pair<ll,int>>> pq;
+        
+        dist[src] = 0;
+        pq.push({0, src});
+        
+        while(!pq.empty()) {
+            auto [d, u] = pq.top(); pq.pop();
+            if(d > dist[u]) continue;
+            for(auto [v, w] : adj[u]) {
+                if(dist[u] + w < dist[v]) {
+                    dist[v] = dist[u] + w;
+                    pq.push({dist[v], v});
+                }
+            }
+        }
+        return dist;
+    }
+  
+- Never revisit a node once popped from PQ
+- Fails with negative weights
+
+Single Source, Any Weights:
+- Bellman-Ford: O(VE), can detect negative cycles
+- Relax all edges V-1 times
+- If still improving on Vth iteration: negative cycle exists
+
+MINIMUM SPANNING TREE
+======================
+
+Kruskal's Algorithm: O(E log E)
+CODE: struct DSU {
+    vector<int> parent, rank;
+    DSU(int n) : parent(n), rank(n, 0) { iota(parent.begin(), parent.end(), 0); }
+    int find(int x) { return parent[x] == x ? x : parent[x] = find(parent[x]); }
+    bool unite(int x, int y) {
+        x = find(x); y = find(y);
+        if(x == y) return false;
+        if(rank[x] < rank[y]) swap(x, y);
+        parent[y] = x;
+        if(rank[x] == rank[y]) rank[x]++;
+        return true;
+    }
+};
+
+vector<pair<ll, pair<int,int>>> edges; // {weight, {u, v}}
+sort(edges.begin(), edges.end());
+DSU dsu(n);
+ll mst = 0;
+for(auto [w, uv] : edges)
+    if(dsu.unite(uv.first, uv.second)) mst += w;
+
+1. Sort edges by weight
+2. Use Union-Find: add edge if not creating cycle
+3. Stop when V-1 edges added
+
+TOPOLOGICAL SORT
+=================
+Valid only for DAGs (Directed Acyclic Graphs)
+Time: O(V + E)
+
+DFS-based (post-order):
+1. Do DFS on all unvisited nodes
+2. When a node finishes, add to result
+3. Reverse result
+
+Kahn's Algorithm (in-degree based):
+1. Find all nodes with in-degree 0
+2. Add to queue
+3. For each node: remove its edges, add neighbors with in-degree 0
+
+CYCLE DETECTION
+================
+
+Undirected Graph:
+- DFS: if visit already-visited non-parent node → cycle exists
+- Union-Find: if both nodes in same component → cycle exists
+
+Directed Graph:
+- DFS: use 3 colors (white/gray/black) or track recursion stack
+- If encounter gray node → back edge → cycle exists
+
+BIPARTITE CHECK
+================
+- BFS/DFS with 2-coloring: O(V + E)
+- Color alternately while traversing
+- If conflict: not bipartite
+- Check all components for disconnected graph
+
+STRONGLY CONNECTED COMPONENTS (SCC)
+====================================
+Kosaraju's Algorithm: O(V + E)
+1. Do DFS, store finish times
+2. Create reverse graph
+3. Do DFS on reverse in decreasing finish time order
+4. Each DFS tree in step 3 is one SCC
+
+Tarjan's Algorithm: O(V + E), single pass
+- Use low-link values to identify SCCs online

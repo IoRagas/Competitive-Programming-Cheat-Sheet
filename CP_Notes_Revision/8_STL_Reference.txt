@@ -1,0 +1,129 @@
+COMPETITIVE PROGRAMMING - STL & BUILT-IN FUNCTIONS
+====================================================
+
+VECTOR OPERATIONS
+==================
+vector<int> v;
+v.push_back(x);           // add to end, O(1) amortized
+v.pop_back();             // remove from end, O(1)
+v.insert(v.begin()+i, x); // insert at position i, O(n)
+v.erase(v.begin()+i);     // erase at position i, O(n)
+v.size();                 // number of elements
+v.clear();                // remove all elements
+v.empty();                // check if empty
+v[i];                     // access element (no bounds check)
+v.at(i);                  // access element (bounds check)
+v.front();                // first element
+v.back();                 // last element
+v.begin(), v.end();       // iterators
+
+STRING OPERATIONS
+=================
+string s;
+s.length(), s.size();     // length
+s.substr(pos, len);       // substring starting at pos
+s.find(sub);              // find substring, returns npos if not found
+s.rfind(sub);             // find from right
+s.replace(pos, len, str); // replace substring
+s.insert(pos, str);       // insert string
+s.erase(pos, len);        // erase characters
+s + s2;                   // concatenation
+s[i];                     // access character
+s.empty();                // check if empty
+s.clear();                // clear string
+
+SORTING & SEARCHING
+====================
+sort(v.begin(), v.end());  // sorts in O(n log n)
+sort(v.begin(), v.end(), greater<int>()); // reverse sort
+stable_sort(...);          // maintains relative order of equal elements
+reverse(v.begin(), v.end()); // reverse order
+unique(v.begin(), v.end()); // removes adjacent duplicates
+                            // returns iterator to new end
+
+binary_search(v.begin(), v.end(), x); // returns true/false
+lower_bound(v.begin(), v.end(), x);  // first element >= x
+upper_bound(v.begin(), v.end(), x);  // first element > x
+
+nth_element(v.begin(), v.begin()+k, v.end()); // kth smallest
+
+MATH FUNCTIONS
+===============
+abs(x);                  // absolute value
+pow(x, y);               // x raised to power y
+sqrt(x);                 // square root
+floor(x);                // largest integer <= x
+ceil(x);                 // smallest integer >= x
+min(a, b);               // minimum
+max(a, b);               // maximum
+__gcd(a, b);             // greatest common divisor
+
+BITWISE FUNCTIONS
+==================
+__builtin_popcount(x);   // count set bits (int)
+__builtin_popcountll(x); // count set bits (long long)
+__builtin_clz(x);        // count leading zeros (int)
+__builtin_clzll(x);      // count leading zeros (long long)
+__builtin_ctz(x);        // count trailing zeros (int)
+__builtin_ctzll(x);      // count trailing zeros (long long)
+
+PRIORITY QUEUE
+==============
+priority_queue<int> pq;            // max heap
+priority_queue<int, vector<int>, greater<int>> pq; // min heap
+pq.push(x);                        // add element
+pq.pop();                          // remove top
+pq.top();                          // access top element
+pq.size();                         // number of elements
+pq.empty();                        // check if empty
+
+QUEUE & DEQUE
+==============
+queue<int> q;
+q.push(x);                         // add to back
+q.pop();                           // remove from front
+q.front();                         // access front
+q.back();                          // access back
+
+deque<int> d;
+d.push_front(x);                   // add to front
+d.push_back(x);                    // add to back
+d.pop_front();                     // remove from front
+d.pop_back();                      // remove from back
+d[i];                              // random access
+
+SET & MAP
+=========
+set<int> s;
+s.insert(x);                       // add element
+s.erase(x);                        // remove element
+s.find(x);                         // find element (returns iterator)
+s.count(x);                        // check if exists (0 or 1)
+s.size();                          // number of elements
+s.lower_bound(x);                  // first element >= x
+s.upper_bound(x);                  // first element > x
+
+map<key, value> m;
+m[key] = value;                    // insert/update
+m.find(key);                       // find by key
+m.erase(key);                      // remove by key
+m.count(key);                      // check if key exists
+m.size();                          // number of pairs
+m.clear();                         // remove all pairs
+
+ALGORITHMS
+===========
+for_each(v.begin(), v.end(), [](int x) { /* process x */ });
+transform(v.begin(), v.end(), v.begin(), [](int x) { return x*2; });
+count(v.begin(), v.end(), x);      // count occurrences
+count_if(v.begin(), v.end(), [](int x) { return x > 0; });
+
+PAIR & TUPLE
+============
+pair<int, int> p = {1, 2};
+p.first;                           // first element
+p.second;                          // second element
+make_pair(1, 2);                   // create pair
+
+tuple<int, string, double> t = {1, "a", 3.14};
+get<0>(t);                         // access by index

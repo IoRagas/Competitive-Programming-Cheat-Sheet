@@ -1,0 +1,90 @@
+COMPETITIVE PROGRAMMING - DATA STRUCTURES & ALGORITHMS ESSENTIALS
+====================================================================
+
+ARRAYS & STRINGS
+================
+- Binary Search: O(log n) - works on sorted arrays only
+  CODE: int idx = lower_bound(v.begin(), v.end(), x) - v.begin();
+  
+- Prefix Sum: precompute cumulative sums for range queries
+  CODE: for(int i = 1; i < n; i++) prefix[i] = prefix[i-1] + arr[i];
+        int sum = prefix[r] - prefix[l-1];  // sum [l, r]
+  
+- Two Pointers: sliding window, merge sorted arrays
+  CODE: int l = 0, r = n-1;
+        while(l < r) { if(arr[l] + arr[r] == target) found++; }
+  
+- KMP/Z-algorithm: string pattern matching in O(n)
+- Hashing: polynomial rolling hash to avoid string comparisons
+
+LINKED LISTS
+============
+- Floyd's cycle detection (tortoise & hare)
+- Reverse list: iterative or recursive
+- Merge sorted lists: two-pointer approach
+- Remove duplicates: use set or track previous node
+
+STACKS & QUEUES
+===============
+- Stack: LIFO - use for parentheses matching, DFS, monotonic stack
+  CODE: stack<int> st;
+        st.push(x); st.pop(); int top = st.top();
+  
+- Queue: FIFO - use for BFS
+  CODE: queue<int> q;
+        q.push(x); q.pop(); int front = q.front();
+  
+- Priority Queue/Heap: O(log n) insertion/deletion
+  CODE: priority_queue<int> maxHeap;  // max-heap
+        priority_queue<int, vector<int>, greater<int>> minHeap;  // min-heap
+  
+- Monotonic Stack: efficient next greater/smaller element
+  CODE: for(int i = 0; i < n; i++) {
+            while(!st.empty() && arr[st.top()] < arr[i]) {
+                nextGreater[st.top()] = arr[i];
+                st.pop();
+            }
+            st.push(i);
+        }
+
+TREES
+=====
+- Binary Search Tree: O(log n) average, O(n) worst
+- Balanced BST: AVL, Red-Black - maintain height balance
+- Segment Tree: range queries/updates in O(log n)
+- Fenwick Tree (BIT): simpler alternative to segment tree
+- Trie: prefix search, autocomplete O(L) where L = word length
+- Union-Find (Disjoint Set): O(α(n)) amortized for connectivity
+
+HEAPS
+=====
+- Min/Max heap: parent smaller/larger than children
+- Heap operations: insert O(log n), delete O(log n), top O(1)
+- Heapify: build heap from array in O(n)
+- Heap sort: O(n log n) not stable but in-place
+
+GRAPHS
+======
+- Adjacency List vs Matrix: list better for sparse graphs
+- BFS: O(V+E) - shortest path in unweighted graph
+- DFS: O(V+E) - explore all connected, cycle detection
+- Dijkstra: O((V+E) log V) with heap - shortest path with positive weights
+- Bellman-Ford: O(VE) - handles negative weights
+- Floyd-Warshall: O(V³) - all pairs shortest path
+- Topological Sort: DFS-based, valid for DAGs only
+- Minimum Spanning Tree: Kruskal O(E log E) or Prim O(E log V)
+
+HASH TABLE
+==========
+- Collision handling: chaining or open addressing
+- Load factor: maintain < 0.75 for performance
+- Perfect for counting, deduplication, caching
+
+TIME COMPLEXITY REFERENCE
+==========================
+O(1) < O(log n) < O(√n) < O(n) < O(n log n) < O(n²) < O(n³) < O(2ⁿ) < O(n!)
+
+For n = 10⁶: O(n log n) works, O(n²) doesn't
+For n = 10⁵: O(n²) might work with optimization
+For n = 10⁴: O(n³) barely works
+For n = 20: O(2ⁿ) can work

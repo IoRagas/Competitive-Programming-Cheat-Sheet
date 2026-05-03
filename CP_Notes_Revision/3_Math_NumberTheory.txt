@@ -1,0 +1,118 @@
+COMPETITIVE PROGRAMMING - MATH & NUMBER THEORY
+================================================
+
+PRIME NUMBERS
+=============
+- Sieve of Eratosthenes: O(n log log n) for all primes up to n
+  CODE: vector<bool> isPrime(n+1, true);
+        isPrime[0] = isPrime[1] = false;
+        for(int i = 2; i*i <= n; i++) {
+            if(isPrime[i]) for(int j = i*i; j <= n; j += i) isPrime[j] = false;
+        }
+  
+- Prime checking: trial division to √n
+  CODE: bool isPrime(ll n) {
+            if(n < 2) return false;
+            if(n == 2) return true;
+            if(n % 2 == 0) return false;
+            for(ll i = 3; i*i <= n; i += 2)
+                if(n % i == 0) return false;
+            return true;
+        }
+  
+- Factorization: trial division O(√n)
+  CODE: map<int, int> factorize(int n) {
+            map<int, int> factors;
+            for(int i = 2; i*i <= n; i++) {
+                while(n % i == 0) {
+                    factors[i]++;
+                    n /= i;
+                }
+            }
+            if(n > 1) factors[n]++;
+            return factors;
+        }
+
+MODULAR ARITHMETIC
+==================
+- (a + b) mod m = ((a mod m) + (b mod m)) mod m
+- (a * b) mod m = ((a mod m) * (b mod m)) mod m
+- (a - b) mod m = ((a mod m) - (b mod m) + m) mod m
+- Use long long to prevent overflow before mod
+- Modular exponentiation: use fast exponentiation O(log n)
+  CODE: ll modpow(ll base, ll exp, ll mod) {
+            ll res = 1;
+            base %= mod;
+            while(exp > 0) {
+                if(exp % 2) res = (res * base) % mod;
+                base = (base * base) % mod;
+                exp /= 2;
+            }
+            return res;
+        }
+  
+- Modular inverse: use Fermat's Little Theorem or Extended GCD
+  CODE: ll modInv(ll a, ll p) {  // when p is prime
+            return modpow(a, p-2, p);
+        }
+  - gcd(a, m) must be 1 for inverse to exist
+
+GCD & LCM
+=========
+- gcd(a, b) = gcd(b, a%b) [Euclidean algorithm, O(log n)]
+  CODE: ll gcd(ll a, ll b) {
+            while(b) {
+                ll temp = b;
+                b = a % b;
+                a = temp;
+            }
+            return a;
+        }
+  
+- lcm(a, b) = (a * b) / gcd(a, b)
+  CODE: ll lcm(ll a, ll b) {
+            return (a / gcd(a, b)) * b;  // divide first to avoid overflow
+        }
+  
+- Extended GCD: find x, y such that ax + by = gcd(a,b)
+  CODE: ll extgcd(ll a, ll b, ll &x, ll &y) {
+            if(b == 0) { x = 1; y = 0; return a; }
+            ll x1, y1;
+            ll g = extgcd(b, a%b, x1, y1);
+            x = y1;
+            y = x1 - (a/b)*y1;
+            return g;
+        }
+
+COMBINATORICS
+=============
+- n! = 1 * 2 * 3 * ... * n
+- nCr = n! / (r! * (n-r)!) = nP(r) / r!
+- nPr = n! / (n-r)!
+- Pascal's Triangle: C[n][k] = C[n-1][k-1] + C[n-1][k]
+- Catalan Numbers: C(n) = (2n)! / ((n+1)! * n!)
+- For large n, compute nCr mod p using:
+  - Precompute factorials and inverse factorials
+  - Use Lucas' theorem for very large nCr mod p
+
+MATRIX EXPONENTIATION
+=====================
+- Compute A^n in O(log n) using binary exponentiation
+- Useful for linear recurrences
+- Fibonacci: [F(n+1) F(n)] = [[1,1],[1,0]]^n
+- Multiply matrices mod p to handle large values
+
+DIGIT DP / NUMBER PROPERTIES
+=============================
+- Count numbers with specific properties in range [L, R]
+- Use: count(R) - count(L-1)
+- Build number digit by digit
+- Track: current position, tight constraint, other properties
+
+XOR PROPERTIES
+==============
+- a ⊕ a = 0, a ⊕ 0 = a
+- XOR is commutative and associative
+- a ⊕ b ⊕ b = a
+- Find single number among duplicates: XOR all (duplicates cancel)
+- Max XOR in array: use Trie of binary representations
